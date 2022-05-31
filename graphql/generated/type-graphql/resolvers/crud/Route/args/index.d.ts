@@ -1,0 +1,12 @@
+export { AggregateRouteArgs } from "./AggregateRouteArgs";
+export { CreateManyRouteArgs } from "./CreateManyRouteArgs";
+export { CreateRouteArgs } from "./CreateRouteArgs";
+export { DeleteManyRouteArgs } from "./DeleteManyRouteArgs";
+export { DeleteRouteArgs } from "./DeleteRouteArgs";
+export { FindFirstRouteArgs } from "./FindFirstRouteArgs";
+export { FindManyRouteArgs } from "./FindManyRouteArgs";
+export { FindUniqueRouteArgs } from "./FindUniqueRouteArgs";
+export { GroupByRouteArgs } from "./GroupByRouteArgs";
+export { UpdateManyRouteArgs } from "./UpdateManyRouteArgs";
+export { UpdateRouteArgs } from "./UpdateRouteArgs";
+export { UpsertRouteArgs } from "./UpsertRouteArgs";

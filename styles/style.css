@@ -1,0 +1,121 @@
+body {
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.transition-map {
+  transition-property: width;
+  transition-duration: 1s;
+  transition-timing-function: ease;
+  transition-delay: 0.3s;
+}
+
+.transition-component {
+  transition-property: width;
+  transition-duration: 1s;
+  transition-timing-function: ease;
+  transition-delay: 0.3s;
+}
+
+.mountain {
+  background-color: white;
+}
+.mountain.active {
+  background-color: red;
+}
+.route {
+  background-color: white;
+}
+.route.active {
+  background-color: red;
+}
+
+.position-delete-button {
+  width: 20px
+}
+.container.responsive-table {
+  overflow-x: auto;
+  /*margin-right: auto;*/
+  /*margin-left: auto;*/
+  /*margin-top: 50px;*/
+  /*padding: 10px;*/
+  /*margin: 10px;*/
+}
+
+.responsive-table .title{
+  margin-top: 20px;
+  text-align: center;
+}
+
+.responsive-table tr{
+  height: 40px !important;
+}
+
+.responsive-table th{
+  max-width: 125px;
+  min-width: 125px;
+  padding: 0 !important;
+  overflow-x: auto;
+  white-space: nowrap;
+  text-align: center !important;
+}
+
+.responsive-table td {
+  height: 40px !important;
+  padding: 5px !important;
+  text-align: center !important;
+  max-width: 30px;
+  overflow: scroll;
+}
+
+.route-form {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 140px);
+}
+.route-form .route-form__footer {
+  margin-top: auto;
+}
+
+.mountain-list-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 100px);
+}
+.mountain-list-sidebar .mountain-list-sidebar__footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.active .css-cvhtoe-MuiButtonBase-root-MuiListItemButton-root {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.active .route-paper {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.delete-menu {
+  position: absolute;
+  background: white;
+  padding: 3px;
+  color: #666;
+  font-weight: bold;
+  border: 1px solid #999;
+  font-family: sans-serif;
+  font-size: 12px;
+  box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.3);
+  margin-top: -10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.delete-menu:hover {
+  background: #eee;
+}

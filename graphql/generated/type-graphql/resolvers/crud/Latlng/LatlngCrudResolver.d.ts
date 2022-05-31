@@ -1,0 +1,31 @@
+import { GraphQLResolveInfo } from "graphql";
+import { AggregateLatlngArgs } from "./args/AggregateLatlngArgs";
+import { CreateLatlngArgs } from "./args/CreateLatlngArgs";
+import { CreateManyLatlngArgs } from "./args/CreateManyLatlngArgs";
+import { DeleteLatlngArgs } from "./args/DeleteLatlngArgs";
+import { DeleteManyLatlngArgs } from "./args/DeleteManyLatlngArgs";
+import { FindFirstLatlngArgs } from "./args/FindFirstLatlngArgs";
+import { FindManyLatlngArgs } from "./args/FindManyLatlngArgs";
+import { FindUniqueLatlngArgs } from "./args/FindUniqueLatlngArgs";
+import { GroupByLatlngArgs } from "./args/GroupByLatlngArgs";
+import { UpdateLatlngArgs } from "./args/UpdateLatlngArgs";
+import { UpdateManyLatlngArgs } from "./args/UpdateManyLatlngArgs";
+import { UpsertLatlngArgs } from "./args/UpsertLatlngArgs";
+import { Latlng } from "../../../models/Latlng";
+import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";
+import { AggregateLatlng } from "../../outputs/AggregateLatlng";
+import { LatlngGroupBy } from "../../outputs/LatlngGroupBy";
+export declare class LatlngCrudResolver {
+    latlng(ctx: any, info: GraphQLResolveInfo, args: FindUniqueLatlngArgs): Promise<Latlng | null>;
+    findFirstLatlng(ctx: any, info: GraphQLResolveInfo, args: FindFirstLatlngArgs): Promise<Latlng | null>;
+    latlngs(ctx: any, info: GraphQLResolveInfo, args: FindManyLatlngArgs): Promise<Latlng[]>;
+    createLatlng(ctx: any, info: GraphQLResolveInfo, args: CreateLatlngArgs): Promise<Latlng>;
+    createManyLatlng(ctx: any, info: GraphQLResolveInfo, args: CreateManyLatlngArgs): Promise<AffectedRowsOutput>;
+    deleteLatlng(ctx: any, info: GraphQLResolveInfo, args: DeleteLatlngArgs): Promise<Latlng | null>;
+    updateLatlng(ctx: any, info: GraphQLResolveInfo, args: UpdateLatlngArgs): Promise<Latlng | null>;
+    deleteManyLatlng(ctx: any, info: GraphQLResolveInfo, args: DeleteManyLatlngArgs): Promise<AffectedRowsOutput>;
+    updateManyLatlng(ctx: any, info: GraphQLResolveInfo, args: UpdateManyLatlngArgs): Promise<AffectedRowsOutput>;
+    upsertLatlng(ctx: any, info: GraphQLResolveInfo, args: UpsertLatlngArgs): Promise<Latlng>;
+    aggregateLatlng(ctx: any, info: GraphQLResolveInfo, args: AggregateLatlngArgs): Promise<AggregateLatlng>;
+    groupByLatlng(ctx: any, info: GraphQLResolveInfo, args: GroupByLatlngArgs): Promise<LatlngGroupBy[]>;
+}

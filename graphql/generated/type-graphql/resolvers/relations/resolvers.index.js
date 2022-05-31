@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserRelationsResolver = exports.SessionRelationsResolver = exports.RouteRelationsResolver = exports.MountainRelationsResolver = exports.LatlngRelationsResolver = exports.AccountRelationsResolver = void 0;
+var AccountRelationsResolver_1 = require("./Account/AccountRelationsResolver");
+Object.defineProperty(exports, "AccountRelationsResolver", { enumerable: true, get: function () { return AccountRelationsResolver_1.AccountRelationsResolver; } });
+var LatlngRelationsResolver_1 = require("./Latlng/LatlngRelationsResolver");
+Object.defineProperty(exports, "LatlngRelationsResolver", { enumerable: true, get: function () { return LatlngRelationsResolver_1.LatlngRelationsResolver; } });
+var MountainRelationsResolver_1 = require("./Mountain/MountainRelationsResolver");
+Object.defineProperty(exports, "MountainRelationsResolver", { enumerable: true, get: function () { return MountainRelationsResolver_1.MountainRelationsResolver; } });
+var RouteRelationsResolver_1 = require("./Route/RouteRelationsResolver");
+Object.defineProperty(exports, "RouteRelationsResolver", { enumerable: true, get: function () { return RouteRelationsResolver_1.RouteRelationsResolver; } });
+var SessionRelationsResolver_1 = require("./Session/SessionRelationsResolver");
+Object.defineProperty(exports, "SessionRelationsResolver", { enumerable: true, get: function () { return SessionRelationsResolver_1.SessionRelationsResolver; } });
+var UserRelationsResolver_1 = require("./User/UserRelationsResolver");
+Object.defineProperty(exports, "UserRelationsResolver", { enumerable: true, get: function () { return UserRelationsResolver_1.UserRelationsResolver; } });

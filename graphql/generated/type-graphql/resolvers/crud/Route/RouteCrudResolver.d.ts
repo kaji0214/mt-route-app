@@ -1,0 +1,31 @@
+import { GraphQLResolveInfo } from "graphql";
+import { AggregateRouteArgs } from "./args/AggregateRouteArgs";
+import { CreateManyRouteArgs } from "./args/CreateManyRouteArgs";
+import { CreateRouteArgs } from "./args/CreateRouteArgs";
+import { DeleteManyRouteArgs } from "./args/DeleteManyRouteArgs";
+import { DeleteRouteArgs } from "./args/DeleteRouteArgs";
+import { FindFirstRouteArgs } from "./args/FindFirstRouteArgs";
+import { FindManyRouteArgs } from "./args/FindManyRouteArgs";
+import { FindUniqueRouteArgs } from "./args/FindUniqueRouteArgs";
+import { GroupByRouteArgs } from "./args/GroupByRouteArgs";
+import { UpdateManyRouteArgs } from "./args/UpdateManyRouteArgs";
+import { UpdateRouteArgs } from "./args/UpdateRouteArgs";
+import { UpsertRouteArgs } from "./args/UpsertRouteArgs";
+import { Route } from "../../../models/Route";
+import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";
+import { AggregateRoute } from "../../outputs/AggregateRoute";
+import { RouteGroupBy } from "../../outputs/RouteGroupBy";
+export declare class RouteCrudResolver {
+    route(ctx: any, info: GraphQLResolveInfo, args: FindUniqueRouteArgs): Promise<Route | null>;
+    findFirstRoute(ctx: any, info: GraphQLResolveInfo, args: FindFirstRouteArgs): Promise<Route | null>;
+    routes(ctx: any, info: GraphQLResolveInfo, args: FindManyRouteArgs): Promise<Route[]>;
+    createRoute(ctx: any, info: GraphQLResolveInfo, args: CreateRouteArgs): Promise<Route>;
+    createManyRoute(ctx: any, info: GraphQLResolveInfo, args: CreateManyRouteArgs): Promise<AffectedRowsOutput>;
+    deleteRoute(ctx: any, info: GraphQLResolveInfo, args: DeleteRouteArgs): Promise<Route | null>;
+    updateRoute(ctx: any, info: GraphQLResolveInfo, args: UpdateRouteArgs): Promise<Route | null>;
+    deleteManyRoute(ctx: any, info: GraphQLResolveInfo, args: DeleteManyRouteArgs): Promise<AffectedRowsOutput>;
+    updateManyRoute(ctx: any, info: GraphQLResolveInfo, args: UpdateManyRouteArgs): Promise<AffectedRowsOutput>;
+    upsertRoute(ctx: any, info: GraphQLResolveInfo, args: UpsertRouteArgs): Promise<Route>;
+    aggregateRoute(ctx: any, info: GraphQLResolveInfo, args: AggregateRouteArgs): Promise<AggregateRoute>;
+    groupByRoute(ctx: any, info: GraphQLResolveInfo, args: GroupByRouteArgs): Promise<RouteGroupBy[]>;
+}

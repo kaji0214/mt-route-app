@@ -1,0 +1,12 @@
+export { AggregateLatlngArgs } from "./AggregateLatlngArgs";
+export { CreateLatlngArgs } from "./CreateLatlngArgs";
+export { CreateManyLatlngArgs } from "./CreateManyLatlngArgs";
+export { DeleteLatlngArgs } from "./DeleteLatlngArgs";
+export { DeleteManyLatlngArgs } from "./DeleteManyLatlngArgs";
+export { FindFirstLatlngArgs } from "./FindFirstLatlngArgs";
+export { FindManyLatlngArgs } from "./FindManyLatlngArgs";
+export { FindUniqueLatlngArgs } from "./FindUniqueLatlngArgs";
+export { GroupByLatlngArgs } from "./GroupByLatlngArgs";
+export { UpdateLatlngArgs } from "./UpdateLatlngArgs";
+export { UpdateManyLatlngArgs } from "./UpdateManyLatlngArgs";
+export { UpsertLatlngArgs } from "./UpsertLatlngArgs";

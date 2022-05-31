@@ -1,0 +1,29 @@
+overwrite: true
+schema: "http://localhost:3000/api/graphql"
+documents:
+  - "graphql/**/*.fragment.ts"
+  - "graphql/**/*.query.ts"
+  - "graphql/**/*.mutation.ts"
+  - "graphql/**/*.graphql.ts"
+  - "src/**/*.fragment.ts"
+  - "src/**/*.query.ts"
+  - "src/**/*.mutation.ts"
+  - "src/**/*.graphql.ts"
+  - "pages/**/*.graphql.ts"
+generates:
+#  graphql/generated/client.tsx:
+#    plugins:
+#      - "typescript"
+#      - "typescript-operations"
+#      - "typescript-react-apollo"
+  graphql/generated/client.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+      - "@graphql-codegen/typescript-msw"
+      - "@homebound/graphql-typescript-factories"
+      - "@homebound/graphql-typescript-response-factories"
+    config:
+      scalarDefaults:
+        Date: new Date()

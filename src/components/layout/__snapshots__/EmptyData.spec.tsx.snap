@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="MuiBox-root css-gmbfhr"
+>
+  <span
+    className="MuiTypography-root MuiTypography-overline MuiTypography-gutterBottom css-wxvrsw-MuiTypography-root"
+  >
+    No Data
+  </span>
+</div>
+`;

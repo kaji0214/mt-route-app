@@ -1,0 +1,8 @@
+export declare class LatlngMinAggregate {
+    id: number | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+    lat: number | null;
+    lng: number | null;
+    routeId: number | null;
+}
