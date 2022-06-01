@@ -1,0 +1,83 @@
+{
+  "containerDefinitions": [
+    {
+      "cpu": 0,
+      "environment": [],
+      "essential": true,
+      "image": "{{ tfstate `data.aws_ecr_repository.node.repository_url` }}:{{ must_env `IMAGE_TAG` }}",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "{{ tfstate `data.aws_cloudwatch_log_group.node.name` }}",
+          "awslogs-region": "{{ must_env `AWS_REGION` }}",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "mountPoints": [],
+      "name": "node",
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "NEXT_PUBLIC_GRAPHQL_ENDPOINT",
+          "valueFrom": "/mtroute/prod/mtroute/NEXT_PUBLIC_GRAPHQL_ENDPOINT"
+        },
+        {
+          "name": "NEXT_PUBLIC_GOOGLE_MAP_API_KEY",
+          "valueFrom": "/mtroute/prod/mtroute/NEXT_PUBLIC_GOOGLE_MAP_API_KEY"
+        },
+        {
+          "name": "DB_URL",
+          "valueFrom": "/mtroute/prod/mtroute/DB_URL"
+        },
+        {
+          "name": "GOOGLE_ID",
+          "valueFrom": "/mtroute/prod/mtroute/GOOGLE_ID"
+        },
+        {
+          "name": "GOOGLE_SECRET",
+          "valueFrom": "/mtroute/prod/mtroute/GOOGLE_SECRET"
+        },
+        {
+          "name": "NEXTAUTH_SECRET",
+          "valueFrom": "/mtroute/prod/mtroute/NEXTAUTH_SECRET"
+        },
+        {
+          "name": "NEXTAUTH_URL",
+          "valueFrom": "/mtroute/prod/mtroute/NEXT_PUBLIC_GRAPHQL_ENDPOINT"
+        }
+      ],
+      "volumesFrom": []
+    }
+  ],
+  "cpu": "256",
+  "executionRoleArn": "{{ tfstate `data.aws_iam_role.ecs_task_execution.arn` }}",
+  "family": "{{ must_env `SYSTEM_NAME` }}-{{ must_env `ENV_NAME` }}-{{ must_env `SERVICE_NAME` }}",
+  "memory": "512",
+  "networkMode": "awsvpc",
+  "placementConstraints": [],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "tags": [
+    {
+      "key": "Env",
+      "value": "{{ must_env `ENV_NAME` }}"
+    },
+    {
+      "key": "System",
+      "value": "{{ must_env `SYSTEM_NAME` }}"
+    },
+    {
+      "key": "Name",
+      "value": "{{ must_env `SYSTEM_NAME` }}-{{ must_env `ENV_NAME` }}-{{ must_env `SERVICE_NAME` }}"
+    }
+  ],
+  "taskRoleArn": "{{ tfstate `data.aws_iam_role.ecs_task.arn` }}",
+  "volumes": []
+}
