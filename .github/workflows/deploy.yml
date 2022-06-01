@@ -1,0 +1,55 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: ap-northeast-1
+  IMAGE_TAG: ${{ github.sha }}
+  SYSTEM_NAME: mtroute
+  SERVICE_NAME: mtroute
+
+jobs:
+  deploy:
+    name: Deploy app to AWS Fargate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure aws credentials for prod
+        if: github.ref == 'refs/heads/main'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.PROD_AWS_ASSUME_ROLE_ARN }}
+          role-duration-seconds: 1800
+      - name: Set env vars for prod
+        if: github.ref == 'refs/heads/main'
+        run: echo "ENV_NAME=prod" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v2
+
+      - uses: aws-actions/amazon-ecr-login@v1
+        id: amazon-ecr-login
+      - name: Push nextjs image to ecr
+        env:
+          DOCKER_BUILDKIT: 1
+          ECR_REGISTRY: ${{ steps.amazon-ecr-login.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.SYSTEM_NAME }}-${{ env.ENV_NAME }}-${{ env.SERVICE_NAME }}-node
+          DB_URL: ${{ secrets.PROD_DB_URL }}
+          NEXT_PUBLIC_GOOGLE_MAP_API_KEY: ${{ secrets.PROD_NEXT_PUBLIC_GOOGLE_MAP_API_KEY }}
+          GOOGLE_ID: ${{ secrets.PROD_GOOGLE_ID }}
+          GOOGLE_SECRET: ${{ secrets.PROD_GOOGLE_SECRET }}
+          NEXTAUTH_URL: ${{ secrets.PROD_NEXTAUTH_URL }}
+          NEXT_PUBLIC_GRAPHQL_ENDPOINT: ${{ secrets.PROD_NEXT_PUBLIC_GRAPHQL_ENDPOINT }}
+        run: |
+          docker build \
+            --cache-from=$ECR_REGISTRY/$ECR_REPOSITORY:latest --build-arg BUILDKIT_INLINE_CACHE=1 . \
+            -f Dockerfile \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
