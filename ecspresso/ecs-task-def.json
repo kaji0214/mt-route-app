@@ -49,7 +49,7 @@
         },
         {
           "name": "NEXTAUTH_URL",
-          "valueFrom": "/mtroute/prod/mtroute/NEXT_PUBLIC_GRAPHQL_ENDPOINT"
+          "valueFrom": "/mtroute/prod/mtroute/NEXTAUTH_URL"
         }
       ],
       "volumesFrom": []
