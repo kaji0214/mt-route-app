@@ -103,6 +103,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts",
+    "schema": "prisma/schema.prisma"
   }
 }
