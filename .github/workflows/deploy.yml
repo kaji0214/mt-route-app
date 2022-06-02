@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/deploy_fargate
 
 env:
   AWS_REGION: ap-northeast-1
@@ -58,6 +59,18 @@ jobs:
         uses: kayac/ecspresso@v0
         with:
           version: v1.5.3
+
+      - name: Register task definition
+        run: ecspresso register --config config_$ENV_NAME.yaml
+        working-directory: ./ecspresso
+
+      - name: Migrate database
+        run: |
+          ecspresso run --config config_$ENV_NAME.yaml \
+            --latest-task-definition \
+            --watch-container=node \
+            --overrides='{"containerOverrides":[{"name":"node", "command":["npx", "prisma", "migrate", "deploy"]}]}'
+        working-directory: ./ecspresso
 
       - name: Deploy to ecs
         run: ecspresso deploy --config config_$ENV_NAME.yaml
