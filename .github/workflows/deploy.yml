@@ -43,6 +43,16 @@ jobs:
       - run: yarn install --frozen-lockfile
         if: ${{ !steps.cache-npm-ci.outputs.cache-hit }}
 
+      - name: Cache prisma client
+        id: cache-prisma-client
+        uses: actions/cache@v2
+        with:
+          path: node_modules/.prisma
+          key: prisma-v1-${{ hashFiles('prisma/schema.prisma') }}
+
+      - run: yarn run prisma generate
+        if: ${{ !steps.cache-prisma-client.outputs.cache-hit }}
+
       - uses: aws-actions/amazon-ecr-login@v1
         id: amazon-ecr-login
       - name: Push nextjs image to ecr
