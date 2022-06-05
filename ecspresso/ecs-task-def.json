@@ -24,32 +24,8 @@
       ],
       "secrets": [
         {
-          "name": "NEXT_PUBLIC_GRAPHQL_ENDPOINT",
-          "valueFrom": "/mtroute/prod/mtroute/NEXT_PUBLIC_GRAPHQL_ENDPOINT"
-        },
-        {
-          "name": "NEXT_PUBLIC_GOOGLE_MAP_API_KEY",
-          "valueFrom": "/mtroute/prod/mtroute/NEXT_PUBLIC_GOOGLE_MAP_API_KEY"
-        },
-        {
           "name": "DB_URL",
           "valueFrom": "/mtroute/prod/mtroute/DB_URL"
-        },
-        {
-          "name": "GOOGLE_ID",
-          "valueFrom": "/mtroute/prod/mtroute/GOOGLE_ID"
-        },
-        {
-          "name": "GOOGLE_SECRET",
-          "valueFrom": "/mtroute/prod/mtroute/GOOGLE_SECRET"
-        },
-        {
-          "name": "NEXTAUTH_SECRET",
-          "valueFrom": "/mtroute/prod/mtroute/NEXTAUTH_SECRET"
-        },
-        {
-          "name": "NEXTAUTH_URL",
-          "valueFrom": "/mtroute/prod/mtroute/NEXTAUTH_URL"
         }
       ],
       "volumesFrom": []
