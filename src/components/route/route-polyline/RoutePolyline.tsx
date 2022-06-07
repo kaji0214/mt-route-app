@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { memo, useEffect, useState } from 'react'
 import { Polyline } from '@react-google-maps/api'
-import { useAppContext } from '@/src/contexts/AppContext'
 import { RoutePolylineFragment } from '@/graphql/generated/client'
+import { useActiveContextUpdater } from '@/src/contexts/ActiveContext/ActiveContextProvider'
 
 const options = {
   fillColor: 'blue',
@@ -26,7 +26,7 @@ export type RoutePolylineProps = {
 const RoutePolyline = ({ active = false, data }: RoutePolylineProps) => {
   const { id, latlngs } = data
   const positions: google.maps.LatLngLiteral[] = latlngs.map(({ lat, lng }) => ({ lat, lng }))
-  const { setActive } = useAppContext()
+  const setActive = useActiveContextUpdater()
 
   const [polyline, setPolyline] = useState<google.maps.Polyline | null>(null)
 

@@ -3,17 +3,18 @@ import { mock, mockReset } from 'jest-mock-extended'
 import { MountainMarkerFragment } from '@/graphql/generated/client'
 import { NonActive, Active } from '@/src/components/mountain/mountain-marker/MountainMarker.stories'
 import { MountainMarkerProps } from '@/src/components/mountain/mountain-marker/MountainMarker'
+import * as hook from '@/src/contexts/ActiveContext/ActiveContextProvider'
+const mockSetActive = jest.fn()
+jest.spyOn(hook, 'useActiveContextUpdater').mockImplementation(() => mockSetActive)
+
 const data = mock<MountainMarkerFragment>()
 
-const mockSetActive = jest.fn()
-jest.mock('@/src/contexts/AppContext', () => {
-  return {
-    __esModule: true,
-    useAppContext: jest.fn().mockImplementation(() => ({ setActive: mockSetActive })),
-  }
-})
 beforeEach(() => {
   mockReset(data) // or mockClear(mock)
+})
+afterAll(() => {
+  jest.clearAllMocks()
+  jest.resetAllMocks()
 })
 describe('opacity', () => {
   it('when active ', () => {

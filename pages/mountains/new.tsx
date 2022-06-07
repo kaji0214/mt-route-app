@@ -6,8 +6,10 @@ import { useCreateMountainWithSessionMutation } from '@/graphql/generated/client
 import Sidebar from '@/src/components/layout/Sidebar'
 import { Marker } from '@react-google-maps/api'
 import { useSession } from 'next-auth/react'
-import { useAppContext } from '@/src/contexts/AppContext'
 import { useRouter } from 'next/router'
+import { useCenterContextState } from '@/src/contexts/CenterContext/CenterContextProvider'
+import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
+import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
 
 export const CreateMountain = z.object({
   name: z.string(),
@@ -16,7 +18,9 @@ export const CreateMountain = z.object({
 })
 const NewMountainPage = () => {
   const router = useRouter()
-  const { center, setToast, setIsToastOpen } = useAppContext()
+  const center = useCenterContextState()
+  const setToast = useToastContextUpdater()
+  const setIsToastOpen = useIsToastOpenContextUpdater()
   const { data: session } = useSession()
   const [createMountain] = useCreateMountainWithSessionMutation()
   const create = (values: z.infer<typeof CreateMountain>) => {

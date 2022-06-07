@@ -1,13 +1,12 @@
 import { act, fireEvent, screen } from '@testing-library/react'
 import { testMockedRender } from '@/src/utils/test-util'
 import NewMountainPage from '@/pages/mountains/new'
-import * as AppContext from '@/src/contexts/AppContext'
-import { appContextValues } from '@/src/contexts/AppContext'
 import {
   newCreateMountainWithSessionData,
   newCreateMountainWithSessionResponse,
 } from '@/graphql/generated/client'
-const spyUseAppContext = jest.spyOn(AppContext, 'useAppContext')
+import * as CenterContextState from '@/src/contexts/CenterContext/CenterContextProvider'
+
 const mockPush = jest.fn()
 jest.mock('next/dist/client/router', () => ({
   __esModule: true,
@@ -87,8 +86,9 @@ describe('Marker', () => {
     expect(screen.queryByTestId('mock-marker')).toBeNull()
   })
   it('should show marker when searched', async () => {
-    spyUseAppContext.mockReturnValue({ ...appContextValues, center: { lat: 1, lng: 2 } })
-
+    jest
+      .spyOn(CenterContextState, 'useCenterContextState')
+      .mockImplementation(() => ({ lat: 1, lng: 2 }))
     await act(() => {
       testMockedRender(<NewMountainPage />, [mockedMutation])
     })

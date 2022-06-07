@@ -7,9 +7,7 @@ import {
   newMountain,
   newUpdateMountainWithSessionResponse,
 } from '@/graphql/generated/client'
-import { appContextValues } from '@/src/contexts/AppContext'
-import * as AppContext from '@/src/contexts/AppContext'
-const spyUseAppContext = jest.spyOn(AppContext, 'useAppContext')
+import * as CenterContextState from '@/src/contexts/CenterContext/CenterContextProvider'
 
 const mockPush = jest.fn()
 jest.mock('next/dist/client/router', () => ({
@@ -116,17 +114,19 @@ describe('EditMountainQuery', () => {
 })
 
 describe('Marker', () => {
-  it('should not show as default', async () => {
+  it('should show as default', async () => {
     await act(() => {
       testMockedRender(<EditMountainPage data={{ query: editedMountainData }} />, mocks, {
         user: { id: 1 },
       })
     })
-    expect(screen.queryByTestId('mock-marker')).toBeNull()
+    expect(screen.getByTestId('mock-marker')).toHaveAttribute('data-position-lat', '200')
+    expect(screen.getByTestId('mock-marker')).toHaveAttribute('data-position-lng', '300')
   })
   it('should show marker when searched', async () => {
-    spyUseAppContext.mockReturnValue({ ...appContextValues, center: { lat: 1, lng: 2 } })
-
+    jest
+      .spyOn(CenterContextState, 'useCenterContextState')
+      .mockImplementation(() => ({ lat: 1, lng: 2 }))
     await act(() => {
       testMockedRender(<EditMountainPage data={{ query: editedMountainData }} />, mocks, {
         user: { id: 1 },

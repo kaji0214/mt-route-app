@@ -2,13 +2,14 @@ import { render, act, screen, fireEvent } from '@testing-library/react'
 import MountainForm from '@/src/components/mountain/mountain-form/MountainForm'
 import React from 'react'
 import { CreateMountain } from '@/pages/mountains/new'
-import * as AppContext from '@/src/contexts/AppContext'
-import { appContextValues } from '@/src/contexts/AppContext'
 import * as useMountainFormHook from '@/src/hooks/mountain/useMountainFormHook/useMountainFormHook'
 import { mock } from 'jest-mock-extended'
 import { UseMountainFormHookReturnValues } from '@/src/hooks/mountain/useMountainFormHook/useMountainFormHook'
+import * as hook from '@/src/contexts/CenterContext/CenterContextProvider'
+
+const mockSetCenter = jest.fn()
+jest.spyOn(hook, 'useCenterContextUpdater').mockImplementation(() => mockSetCenter)
 const spyUseMountainFormHook = jest.spyOn(useMountainFormHook, 'useMountainFormHook')
-const spyUseAppContext = jest.spyOn(AppContext, 'useAppContext')
 afterAll(() => {
   jest.clearAllMocks()
   jest.resetAllMocks()
@@ -51,8 +52,6 @@ describe('MountainForm check', () => {
 })
 describe('useEffect', () => {
   it('when form values is filled', async () => {
-    const mockSetCenter = jest.fn()
-    spyUseAppContext.mockReturnValue({ ...appContextValues, setCenter: mockSetCenter })
     const formValues = { name: 'foo', lat: 1, lng: 2 }
     const returnValues = mock<UseMountainFormHookReturnValues>()
     returnValues.values = formValues
@@ -64,7 +63,6 @@ describe('useEffect', () => {
   })
   it('when form values is empty', async () => {
     const mockSetCenter = jest.fn()
-    spyUseAppContext.mockReturnValue({ ...appContextValues, setCenter: mockSetCenter })
     const returnValues = mock<UseMountainFormHookReturnValues>()
     spyUseMountainFormHook.mockReturnValue({ ...returnValues, values: undefined })
     await act(() => {

@@ -17,7 +17,6 @@ import Sidebar from '@/src/components/layout/Sidebar'
 import RoutePolyline from '@/src/components/route/route-polyline/RoutePolyline'
 import EmptyData from '@/src/components/layout/EmptyData'
 import RouteListItem from '@/src/components/route/route-list-item/RouteListItem'
-import { useAppContext } from '@/src/contexts/AppContext'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import RouteList from '@/src/components/route/route-list/RouteList'
@@ -26,6 +25,10 @@ import { SHOW_MOUNTAIN_QUERY } from '@/graphql/pages/mountains/mid/index.graphql
 import client from '@/graphql/client'
 import { useSetSideMenuWidth } from '@/src/hooks/useSetSideMenuWidth/useSetSideMenuWidth'
 import { useShowMountainHook } from '@/src/hooks/mountain/useShowMountainHook/useShowMountainHook'
+import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
+import { useActiveContextState } from '@/src/contexts/ActiveContext/ActiveContextProvider'
+import { useActiveContextUpdater } from '@/src/contexts/ActiveContext/ActiveContextProvider'
+import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
 
 type Data = {
   query: ShowMountainQuery
@@ -35,7 +38,10 @@ const ShowMountain = ({ data }: InferGetServerSidePropsType<typeof getServerSide
   const { query } = data
 
   const router = useRouter()
-  const { active, setActive, setToast, setIsToastOpen } = useAppContext()
+  const active = useActiveContextState()
+  const setActive = useActiveContextUpdater()
+  const setToast = useToastContextUpdater()
+  const setIsToastOpen = useIsToastOpenContextUpdater()
   const { data: session } = useSession()
   const { mid } = router.query
   const [deleteMountain] = useDeleteMountainWithSessionMutation()

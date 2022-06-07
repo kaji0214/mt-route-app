@@ -2,14 +2,20 @@ import * as React from 'react'
 import Stack from '@mui/material/Stack'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
-import { useAppContext } from '@/src/contexts/AppContext'
+import {
+  useIsToastOpenContextUpdater,
+  useIsToastOpenContextState,
+} from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
+import { useToastContextState } from '@/src/contexts/ToastContext/ToastContextProvider'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 })
 
 export default function CustomizedSnackbars() {
-  const { toast, isToastOpen, setIsToastOpen } = useAppContext()
+  const toast = useToastContextState()
+  const isToastOpen = useIsToastOpenContextState()
+  const setIsToastOpen = useIsToastOpenContextUpdater()
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
