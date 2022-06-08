@@ -4,7 +4,7 @@ import { IconButton, Paper } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import { LabeledTextField } from '@/src/core/components/LabeledTextField'
 
-type OnSubmitProps = { keyword: string }
+export type OnSubmitProps = { keyword: string }
 export type OnSearchMountainList = (values: OnSubmitProps) => void
 type Props = {
   onSubmit: OnSearchMountainList
