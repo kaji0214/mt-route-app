@@ -24,6 +24,7 @@ import { useNewRouteHook } from '@/src/hooks/route/useNewRouteHook/useNewRouteHo
 import { useSetSideMenuWidth } from '@/src/hooks/useSetSideMenuWidth/useSetSideMenuWidth'
 import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
 import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
+import { useFormHook } from '@/src/hooks/useFormHook/useFormHook'
 export const CreateRoute = z.object({
   name: z.string(),
   time: z.number(),
@@ -56,6 +57,7 @@ const NewRoutePage = ({ data }: InferGetServerSidePropsType<typeof getServerSide
   const setIsToastOpen = useIsToastOpenContextUpdater()
   const { data: session } = useSession()
   const [mutateFunction] = useCreateRouteWithSessionMutation()
+  const { onFailed } = useFormHook()
 
   const create = (values: z.infer<typeof CreateRoute>) => {
     const { name, time } = values
@@ -72,6 +74,7 @@ const NewRoutePage = ({ data }: InferGetServerSidePropsType<typeof getServerSide
       },
     }).then((res) => {
       if (res.errors) {
+        onFailed()
         return
       }
       setToast('success')

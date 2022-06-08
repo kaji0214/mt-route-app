@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import { useCenterContextState } from '@/src/contexts/CenterContext/CenterContextProvider'
 import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
 import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
+import { useFormHook } from '@/src/hooks/useFormHook/useFormHook'
 
 export const CreateMountain = z.object({
   name: z.string(),
@@ -21,6 +22,7 @@ const NewMountainPage = () => {
   const center = useCenterContextState()
   const setToast = useToastContextUpdater()
   const setIsToastOpen = useIsToastOpenContextUpdater()
+  const { onFailed, onSubmitted } = useFormHook()
   const { data: session } = useSession()
   const [createMountain] = useCreateMountainWithSessionMutation()
   const create = (values: z.infer<typeof CreateMountain>) => {
@@ -36,6 +38,7 @@ const NewMountainPage = () => {
       },
     }).then((res) => {
       if (res.errors) {
+        onFailed()
         return
       }
       setToast('success')

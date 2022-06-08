@@ -24,6 +24,7 @@ import { useEditRouteHook } from '@/src/hooks/route/useEditRouteHook/useEditRout
 import EmptyData from '@/src/components/layout/EmptyData'
 import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
 import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
+import { useFormHook } from '@/src/hooks/useFormHook/useFormHook'
 
 const defaultRouteDetail: EditedRouteQueryFragment = {
   id: 0,
@@ -55,6 +56,7 @@ const EditRoutePage = ({ data }: InferGetServerSidePropsType<typeof getServerSid
   const setToast = useToastContextUpdater()
   const setIsToastOpen = useIsToastOpenContextUpdater()
   const [updateRoute] = useUpdateRouteWithSessionMutation()
+  const { onFailed } = useFormHook()
 
   const route = query && query.route ? query!.route! : defaultRouteDetail
 
@@ -79,6 +81,11 @@ const EditRoutePage = ({ data }: InferGetServerSidePropsType<typeof getServerSid
         },
       },
     }).then((res) => {
+      if (res.errors) {
+        onFailed()
+        return
+      }
+
       setToast('success')
       setIsToastOpen(true)
       router.push({

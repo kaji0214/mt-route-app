@@ -19,6 +19,7 @@ import { useCenterContextState } from '@/src/contexts/CenterContext/CenterContex
 import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
 import { useCenterContextUpdater } from '@/src/contexts/CenterContext/CenterContextProvider'
 import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
+import { useFormHook } from '@/src/hooks/useFormHook/useFormHook'
 
 export const UpdateMountain = z.object({
   id: z.number(),
@@ -59,6 +60,7 @@ const EditMountainPage = ({ data }: InferGetServerSidePropsType<typeof getServer
   const setToast = useToastContextUpdater()
   const setIsToastOpen = useIsToastOpenContextUpdater()
   const { data: session } = useSession()
+  const { onFailed } = useFormHook()
 
   const mountain = query && query.mountain ? query.mountain! : newMountain()
 
@@ -77,6 +79,7 @@ const EditMountainPage = ({ data }: InferGetServerSidePropsType<typeof getServer
       },
     }).then((res) => {
       if (res.errors) {
+        onFailed()
         return
       }
 
