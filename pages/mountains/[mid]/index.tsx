@@ -29,6 +29,7 @@ import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/
 import { useActiveContextState } from '@/src/contexts/ActiveContext/ActiveContextProvider'
 import { useActiveContextUpdater } from '@/src/contexts/ActiveContext/ActiveContextProvider'
 import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
+import { useFormHook } from '@/src/hooks/useFormHook/useFormHook'
 
 type Data = {
   query: ShowMountainQuery
@@ -45,6 +46,7 @@ const ShowMountain = ({ data }: InferGetServerSidePropsType<typeof getServerSide
   const { data: session } = useSession()
   const { mid } = router.query
   const [deleteMountain] = useDeleteMountainWithSessionMutation()
+  const { onFailed, onSucceeded } = useFormHook()
   const { canEdit, canDelete, onClickAddRoute, onClickEditMountain, mountain } =
     useShowMountainHook({
       query,
@@ -63,9 +65,11 @@ const ShowMountain = ({ data }: InferGetServerSidePropsType<typeof getServerSide
         },
       },
     }).then((res) => {
-      setToast('success')
-      setIsToastOpen(true)
-      router.push(`/mountains`)
+      if (res.errors) {
+        onFailed()
+        return
+      }
+      onSucceeded('/mountains')
     })
   }
 
