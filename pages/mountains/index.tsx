@@ -10,14 +10,18 @@ import {
 import MountainListForm from '@/src/components/mountain/mountain-list-form/MountainListForm'
 import MountainMarker from '@/src/components/mountain/mountain-marker/MountainMarker'
 import { filter } from 'graphql-anywhere'
-import { useAppContext } from '@/src/contexts/AppContext'
 import { useRouter } from 'next/router'
 import Loading from '@/src/components/layout/Loading'
 import { useListMountainsHook } from '@/src/hooks/mountain/useListMountainsHook/useListMountainsHook'
+import {
+  useActiveContextUpdater,
+  useActiveContextState,
+} from '@/src/contexts/ActiveContext/ActiveContextProvider'
 
 const ListMountainsPage = () => {
   const router = useRouter()
-  const { active, setActive } = useAppContext()
+  const active = useActiveContextState()
+  const setActive = useActiveContextUpdater()
   const [mountains, setMountains] = useState<MountainListItemFragment[]>([])
   const [next, setNext] = useState<number | undefined | null>(1)
 

@@ -15,7 +15,6 @@ import {
 } from '@/graphql/generated/client'
 import Sidebar from '@/src/components/layout/Sidebar'
 import { useSession } from 'next-auth/react'
-import { useAppContext } from '@/src/contexts/AppContext'
 import MountainMarker from '@/src/components/mountain/mountain-marker/MountainMarker'
 import { filter } from 'graphql-anywhere'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
@@ -23,6 +22,8 @@ import client from '@/graphql/client'
 import { NEW_ROUTE_QUERY } from '@/graphql/pages/mountains/mid/routes/new.graphql'
 import { useNewRouteHook } from '@/src/hooks/route/useNewRouteHook/useNewRouteHook'
 import { useSetSideMenuWidth } from '@/src/hooks/useSetSideMenuWidth/useSetSideMenuWidth'
+import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
+import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
 export const CreateRoute = z.object({
   name: z.string(),
   time: z.number(),
@@ -51,7 +52,8 @@ const NewRoutePage = ({ data }: InferGetServerSidePropsType<typeof getServerSide
 
   const { getLatlngs, mountain } = useNewRouteHook({ query })
 
-  const { setToast, setIsToastOpen } = useAppContext()
+  const setToast = useToastContextUpdater()
+  const setIsToastOpen = useIsToastOpenContextUpdater()
   const { data: session } = useSession()
   const [mutateFunction] = useCreateRouteWithSessionMutation()
 

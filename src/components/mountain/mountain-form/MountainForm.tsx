@@ -7,12 +7,12 @@ import SearchIcon from '@mui/icons-material/Search'
 import { Form, FormProps } from '@/src/core/components/Form'
 import { LabeledTextField } from '@/src/core/components/LabeledTextField'
 import { z } from 'zod'
-import { useAppContext } from '@/src/contexts/AppContext'
 import { useMountainFormHook } from '@/src/hooks/mountain/useMountainFormHook/useMountainFormHook'
+import { useCenterContextUpdater } from '@/src/contexts/CenterContext/CenterContextProvider'
 
 const MountainForm = <S extends z.ZodType<any, any>>(props: FormProps<S>) => {
   const { initialValues, ...rest } = props
-  const { setCenter } = useAppContext()
+  const setCenter = useCenterContextUpdater()
   const { values: formValues, onLoad, onPlaceChanged } = useMountainFormHook()
 
   const [values, setValues] = useState(initialValues)

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useGoogleMap } from '@react-google-maps/api'
 
 type FormType = {
@@ -22,9 +22,12 @@ export const useMountainFormHook = (): UseMountainFormHookReturnValues => {
   const [autoComplete, setAutoComplete] = useState<google.maps.places.Autocomplete | undefined>(
     undefined,
   )
-  const onLoad = (autoComplete: google.maps.places.Autocomplete) => {
-    setAutoComplete(autoComplete)
-  }
+  const onLoad = useCallback(
+    (autoComplete: google.maps.places.Autocomplete) => {
+      setAutoComplete(autoComplete)
+    },
+    [setAutoComplete],
+  )
   const onPlaceChanged = (): { name: string; lat: number; lng: number } | undefined => {
     const placeResult = autoComplete ? autoComplete.getPlace() : undefined
     if (!placeResult) {

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { memo } from 'react'
 import { Marker } from '@react-google-maps/api'
 import { MountainMarkerFragment } from '@/graphql/generated/client'
-import { useAppContext } from '@/src/contexts/AppContext'
+import { useActiveContextUpdater } from '@/src/contexts/ActiveContext/ActiveContextProvider'
 
 export type MountainMarkerProps = {
   active?: boolean
@@ -10,7 +10,7 @@ export type MountainMarkerProps = {
 }
 const MountainMarker = ({ data, active = false }: MountainMarkerProps) => {
   const { id, lat, lng } = data
-  const { setActive } = useAppContext()
+  const setActive = useActiveContextUpdater()
 
   return (
     <Marker

@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import { useAppContext } from '@/src/contexts/AppContext'
+import { useMenuWidthContextUpdater } from '@/src/contexts/MenuWidthContext/MenuWidthContextProvider'
 
 export const useSetSideMenuWidth = (width: number) => {
-  const { setMenuWidth } = useAppContext()
+  const setMenuWidth = useMenuWidthContextUpdater()
 
   useEffect(() => {
     setMenuWidth(width)

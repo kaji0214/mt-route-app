@@ -24,9 +24,10 @@ import client from '@/graphql/client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { SHOW_ROUTE_QUERY } from '@/graphql/pages/mountains/mid/routes/rid/index.graphql'
-import { useAppContext } from '@/src/contexts/AppContext'
 import { useSetSideMenuWidth } from '@/src/hooks/useSetSideMenuWidth/useSetSideMenuWidth'
 import { useShowRouteHook } from '@/src/hooks/route/useShowRouteHook/useShowRouteHook'
+import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
+import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
 
 type Data = {
   query: ShowRouteQuery
@@ -38,8 +39,8 @@ const ShowRoutePage = ({ data }: InferGetServerSidePropsType<typeof getServerSid
   const { mid, rid } = router.query
   const { data: session } = useSession()
 
-  const { setToast, setIsToastOpen } = useAppContext()
-
+  const setToast = useToastContextUpdater()
+  const setIsToastOpen = useIsToastOpenContextUpdater()
   const { route, canEdit, canDelete, onClickEditRoute } = useShowRouteHook({
     query,
   })

@@ -10,12 +10,15 @@ import {
 } from '@/graphql/generated/client'
 import { useRouter } from 'next/router'
 import EmptyData from '@/src/components/layout/EmptyData'
-import { useAppContext } from '@/src/contexts/AppContext'
 import { useSession } from 'next-auth/react'
 import { Marker } from '@react-google-maps/api'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import client from '@/graphql/client'
 import { EDITED_MOUNTAIN_QUERY } from '@/graphql/pages/mountains/mid/edit.graphql'
+import { useCenterContextState } from '@/src/contexts/CenterContext/CenterContextProvider'
+import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
+import { useCenterContextUpdater } from '@/src/contexts/CenterContext/CenterContextProvider'
+import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
 
 export const UpdateMountain = z.object({
   id: z.number(),
@@ -51,7 +54,10 @@ const EditMountainPage = ({ data }: InferGetServerSidePropsType<typeof getServer
   const { query } = data
   const router = useRouter()
   const { mid } = router.query
-  const { center, setCenter, setToast, setIsToastOpen } = useAppContext()
+  const center = useCenterContextState()
+  const setCenter = useCenterContextUpdater()
+  const setToast = useToastContextUpdater()
+  const setIsToastOpen = useIsToastOpenContextUpdater()
   const { data: session } = useSession()
 
   const mountain = query && query.mountain ? query.mountain! : newMountain()

@@ -1,5 +1,5 @@
 import { RouteDetailProps } from '@/src/components/route/route-detail/RouteDetail'
-import { useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { useGoogleMap } from '@react-google-maps/api'
@@ -21,9 +21,9 @@ export const useShowRouteHook = ({
   const { data: session } = useSession()
   const map = useGoogleMap()
 
-  const onClickEditRoute = () => {
+  const onClickEditRoute = useCallback(() => {
     router.push(`/mountains/${mountain.id}/routes/${id}/edit`)
-  }
+  }, [id, router, mountain])
 
   useEffect(() => {
     if (map !== null) {
@@ -41,8 +41,8 @@ export const useShowRouteHook = ({
     }
   }, [route, map, latlngs])
 
-  const canEdit = session ? session!.user!.id === userId : false
-  const canDelete = true
+  const canEdit = useMemo(() => (session ? session.user.id === userId : false), [session, userId])
+  const canDelete = true //todo
   return {
     route,
     canEdit,

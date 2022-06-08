@@ -1,5 +1,8 @@
-import { useState } from 'react'
-import { OnSearchMountainList } from '@/src/components/mountain/mountain-list-form/MountainListForm'
+import { useCallback, useState } from 'react'
+import {
+  OnSearchMountainList,
+  OnSubmitProps,
+} from '@/src/components/mountain/mountain-list-form/MountainListForm'
 
 type UseListMountainsHookReturnValues = {
   shouldSearch: () => boolean
@@ -19,13 +22,17 @@ export const useListMountainsHook = ({
   const [keyword, setKeyword] = useState<string>('')
   const [changed, setChanged] = useState<boolean>(false)
 
-  const onSearch: OnSearchMountainList = (values) => {
-    setKeyword(values.keyword)
-    setChanged(true)
-  }
+  const onSearch = useCallback(
+    (values: OnSubmitProps) => {
+      setKeyword(values.keyword)
+      setChanged(true)
+    },
+    [setKeyword, setChanged],
+  )
+  const onSearched = useCallback(() => {
+    setChanged(false)
+  }, [])
 
-  const onSearched = () => setChanged(false)
-
-  const shouldSearch = () => called && !loading && changed
+  const shouldSearch = useCallback(() => called && !loading && changed, [called, loading, changed])
   return { shouldSearch, keyword, onSearch, onSearched, changed }
 }

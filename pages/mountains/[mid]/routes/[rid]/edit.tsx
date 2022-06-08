@@ -21,8 +21,9 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import client from '@/graphql/client'
 import { EDITED_ROUTE_QUERY } from '@/graphql/pages/mountains/mid/routes/rid/edit.graphql'
 import { useEditRouteHook } from '@/src/hooks/route/useEditRouteHook/useEditRouteHook'
-import { useAppContext } from '@/src/contexts/AppContext'
 import EmptyData from '@/src/components/layout/EmptyData'
+import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
+import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
 
 const defaultRouteDetail: EditedRouteQueryFragment = {
   id: 0,
@@ -51,8 +52,8 @@ const EditRoutePage = ({ data }: InferGetServerSidePropsType<typeof getServerSid
   const { data: session } = useSession()
   const { mid, rid } = router.query
   useSetSideMenuWidth(400)
-  const { setToast, setIsToastOpen } = useAppContext()
-
+  const setToast = useToastContextUpdater()
+  const setIsToastOpen = useIsToastOpenContextUpdater()
   const [updateRoute] = useUpdateRouteWithSessionMutation()
 
   const route = query && query.route ? query!.route! : defaultRouteDetail

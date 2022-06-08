@@ -3,15 +3,12 @@ import { mock, mockReset } from 'jest-mock-extended'
 import { MountainMarkerFragment } from '@/graphql/generated/client'
 import { NonActive } from '@/src/components/route/route-polyline/RoutePolyline.stories'
 import { RoutePolylineProps } from '@/src/components/route/route-polyline/RoutePolyline'
-const data = mock<MountainMarkerFragment>()
+import * as hook from '@/src/contexts/ActiveContext/ActiveContextProvider'
 
 const mockSetActive = jest.fn()
-jest.mock('@/src/contexts/AppContext', () => {
-  return {
-    __esModule: true,
-    useAppContext: jest.fn().mockImplementation(() => ({ setActive: mockSetActive })),
-  }
-})
+jest.spyOn(hook, 'useActiveContextUpdater').mockImplementation(() => mockSetActive)
+const data = mock<MountainMarkerFragment>()
+
 beforeEach(() => {
   mockReset(data) // or mockClear(mock)
 })

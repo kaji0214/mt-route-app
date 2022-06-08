@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { render } from '@testing-library/react'
-import { AppContext, appContextValues, AppContextValues } from '@/src/contexts/AppContext'
 import { GoogleMap } from '@react-google-maps/api'
 import { SessionProvider } from 'next-auth/react'
 import { ApolloProvider } from '@apollo/client'
@@ -14,7 +13,6 @@ import { MockedProvider } from '@apollo/client/testing'
 import { server } from '../../__tests__/mocks/server'
 type TestRenderProps = {
   session: Session
-  context: AppContextValues
 }
 const defaultSession: Session = {
   user: {
@@ -27,10 +25,7 @@ const defaultSession: Session = {
 }
 
 export const testMswRenderer =
-  (
-    children: React.ReactNode,
-    { session, context }: TestRenderProps = { session: defaultSession, context: appContextValues },
-  ) =>
+  (children: React.ReactNode, { session }: TestRenderProps = { session: defaultSession }) =>
   (responseOverride?: GraphQLHandler<GraphQLRequest<never>>) => {
     if (responseOverride) {
       server.use(responseOverride)
@@ -38,9 +33,9 @@ export const testMswRenderer =
     render(
       <SessionProvider session={session}>
         <ApolloProvider client={client}>
-          <AppContext.Provider value={context}>
+          <AppProvider>
             <GoogleMap>{children}</GoogleMap>
-          </AppContext.Provider>
+          </AppProvider>
         </ApolloProvider>
       </SessionProvider>,
     )
@@ -49,14 +44,13 @@ export const testMockedRender = (
   ui: React.ReactNode,
   mocks: any[] = [],
   session: any = defaultSession,
-  contextValues: AppContextValues = appContextValues,
 ) => {
   return render(
     <SessionProvider session={session}>
       <MockedProvider mocks={mocks} addTypename={false}>
-        <AppContext.Provider value={contextValues}>
+        <AppProvider>
           <GoogleMap>{ui}</GoogleMap>
-        </AppContext.Provider>
+        </AppProvider>
       </MockedProvider>
     </SessionProvider>,
   )
@@ -121,6 +115,7 @@ const getMockUseSession = () => {
 export { getMockUseSession }
 
 import * as reactGoogleMap from '@react-google-maps/api'
+import AppProvider from '@/src/contexts/AppProvider'
 
 const mockMap = mockDeep<google.maps.Map>()
 const getMockUseGoogleMap = () => {

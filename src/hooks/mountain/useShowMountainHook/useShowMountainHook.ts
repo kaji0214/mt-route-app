@@ -1,7 +1,7 @@
 import { newMountain, ShowMountainFragment, ShowMountainQuery } from '@/graphql/generated/client'
 import { useRouter } from 'next/router'
 import { MountainDetailProps } from '@/src/components/mountain/mountain-detail/MountainDetail'
-import { useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useCookies } from 'react-cookie'
 import { useSession } from 'next-auth/react'
 import { useGoogleMap } from '@react-google-maps/api'
@@ -26,14 +26,17 @@ export const useShowMountainHook = ({
   const { id, _count, userId } = mountain
   const router = useRouter()
 
-  const onClickAddRoute = () => {
+  const onClickAddRoute = useCallback(() => {
     router.push(`/mountains/${id}/routes/new`)
-  }
-  const onClickEditMountain = () => {
+  }, [id, router])
+
+  const onClickEditMountain = useCallback(() => {
     router.push(`/mountains/${id}/edit`)
-  }
-  const canEdit = session ? session.user.id === userId : false
-  const canDelete = _count!.routes === 0
+  }, [id, router])
+
+  const canEdit = useMemo(() => (session ? session.user.id === userId : false), [session, userId])
+
+  const canDelete = useMemo(() => (session ? session.user.id === userId : false), [session, userId])
 
   useEffect(() => {
     if (map !== null) {

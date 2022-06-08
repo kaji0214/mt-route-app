@@ -1,13 +1,13 @@
 import React, { memo } from 'react'
 import ReactGoogleMap from '@/src//components/map/ReactGoogleMap'
 import { motion } from 'framer-motion'
-import { useAppContext } from '@/src/contexts/AppContext'
 import ResponsiveAppBar from '@/src//components/layout/ResponsiveAppBar'
+import { useMenuWidthContextState } from '@/src/contexts/MenuWidthContext/MenuWidthContextProvider'
 type Props = {
   children: JSX.Element
 }
 const Map = ({ children }: Props) => {
-  const { menuWidth } = useAppContext()
+  const menuWidth = useMenuWidthContextState()
 
   return (
     <motion.div

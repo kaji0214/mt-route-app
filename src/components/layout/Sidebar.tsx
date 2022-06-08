@@ -3,13 +3,13 @@ import { motion } from 'framer-motion'
 import Toolbar from '@mui/material/Toolbar'
 import Divider from '@mui/material/Divider'
 import GoBackButton from '@/src/components/layout/GoBackButton'
-import { useAppContext } from '@/src/contexts/AppContext'
+import { useMenuWidthContextState } from '@/src/contexts/MenuWidthContext/MenuWidthContextProvider'
 type Props = {
   children: JSX.Element
   backUrl?: string
 }
 const Sidebar = ({ children, backUrl }: Props) => {
-  const { menuWidth } = useAppContext()
+  const menuWidth = useMenuWidthContextState()
   return (
     <motion.div
       style={{
