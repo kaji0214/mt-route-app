@@ -22,8 +22,6 @@ import client from '@/graphql/client'
 import { NEW_ROUTE_QUERY } from '@/graphql/pages/mountains/mid/routes/new.graphql'
 import { useNewRouteHook } from '@/src/hooks/route/useNewRouteHook/useNewRouteHook'
 import { useSetSideMenuWidth } from '@/src/hooks/useSetSideMenuWidth/useSetSideMenuWidth'
-import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
-import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
 import { useFormHook } from '@/src/hooks/useFormHook/useFormHook'
 export const CreateRoute = z.object({
   name: z.string(),
@@ -52,12 +50,9 @@ const NewRoutePage = ({ data }: InferGetServerSidePropsType<typeof getServerSide
   useSetSideMenuWidth(400)
 
   const { getLatlngs, mountain } = useNewRouteHook({ query })
-
-  const setToast = useToastContextUpdater()
-  const setIsToastOpen = useIsToastOpenContextUpdater()
   const { data: session } = useSession()
   const [mutateFunction] = useCreateRouteWithSessionMutation()
-  const { onFailed } = useFormHook()
+  const { onFailed, onSucceeded } = useFormHook()
 
   const create = (values: z.infer<typeof CreateRoute>) => {
     const { name, time } = values
@@ -77,15 +72,7 @@ const NewRoutePage = ({ data }: InferGetServerSidePropsType<typeof getServerSide
         onFailed()
         return
       }
-      setToast('success')
-      setIsToastOpen(true)
-      router.push({
-        pathname: '/mountains/[mid]/routes/[rid]',
-        query: {
-          mid: Number(mid),
-          rid: res.data?.createRouteWithSession.id,
-        },
-      })
+      onSucceeded(`/mountains/${Number(mid)}/routes/${res.data?.createRouteWithSession.id}`)
     })
   }
 

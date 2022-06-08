@@ -46,7 +46,7 @@ const ShowMountain = ({ data }: InferGetServerSidePropsType<typeof getServerSide
   const { data: session } = useSession()
   const { mid } = router.query
   const [deleteMountain] = useDeleteMountainWithSessionMutation()
-  const { onFailed } = useFormHook()
+  const { onFailed, onSucceeded } = useFormHook()
   const { canEdit, canDelete, onClickAddRoute, onClickEditMountain, mountain } =
     useShowMountainHook({
       query,
@@ -69,9 +69,7 @@ const ShowMountain = ({ data }: InferGetServerSidePropsType<typeof getServerSide
         onFailed()
         return
       }
-      setToast('success')
-      setIsToastOpen(true)
-      router.push(`/mountains`)
+      onSucceeded('/mountains')
     })
   }
 

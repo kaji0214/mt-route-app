@@ -22,8 +22,6 @@ import client from '@/graphql/client'
 import { EDITED_ROUTE_QUERY } from '@/graphql/pages/mountains/mid/routes/rid/edit.graphql'
 import { useEditRouteHook } from '@/src/hooks/route/useEditRouteHook/useEditRouteHook'
 import EmptyData from '@/src/components/layout/EmptyData'
-import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
-import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
 import { useFormHook } from '@/src/hooks/useFormHook/useFormHook'
 
 const defaultRouteDetail: EditedRouteQueryFragment = {
@@ -53,10 +51,8 @@ const EditRoutePage = ({ data }: InferGetServerSidePropsType<typeof getServerSid
   const { data: session } = useSession()
   const { mid, rid } = router.query
   useSetSideMenuWidth(400)
-  const setToast = useToastContextUpdater()
-  const setIsToastOpen = useIsToastOpenContextUpdater()
   const [updateRoute] = useUpdateRouteWithSessionMutation()
-  const { onFailed } = useFormHook()
+  const { onFailed, onSucceeded } = useFormHook()
 
   const route = query && query.route ? query!.route! : defaultRouteDetail
 
@@ -86,15 +82,7 @@ const EditRoutePage = ({ data }: InferGetServerSidePropsType<typeof getServerSid
         return
       }
 
-      setToast('success')
-      setIsToastOpen(true)
-      router.push({
-        pathname: '/mountains/[mid]/routes/[rid]',
-        query: {
-          mid: Number(mid),
-          rid: res.data?.updateRouteWithSession?.id,
-        },
-      })
+      onSucceeded(`/mountains/${Number(mid)}/routes/${res.data?.updateRouteWithSession?.id}`)
     })
   }
 

@@ -16,9 +16,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import client from '@/graphql/client'
 import { EDITED_MOUNTAIN_QUERY } from '@/graphql/pages/mountains/mid/edit.graphql'
 import { useCenterContextState } from '@/src/contexts/CenterContext/CenterContextProvider'
-import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
 import { useCenterContextUpdater } from '@/src/contexts/CenterContext/CenterContextProvider'
-import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
 import { useFormHook } from '@/src/hooks/useFormHook/useFormHook'
 
 export const UpdateMountain = z.object({
@@ -57,10 +55,8 @@ const EditMountainPage = ({ data }: InferGetServerSidePropsType<typeof getServer
   const { mid } = router.query
   const center = useCenterContextState()
   const setCenter = useCenterContextUpdater()
-  const setToast = useToastContextUpdater()
-  const setIsToastOpen = useIsToastOpenContextUpdater()
   const { data: session } = useSession()
-  const { onFailed } = useFormHook()
+  const { onFailed, onSucceeded } = useFormHook()
 
   const mountain = query && query.mountain ? query.mountain! : newMountain()
 
@@ -82,16 +78,7 @@ const EditMountainPage = ({ data }: InferGetServerSidePropsType<typeof getServer
         onFailed()
         return
       }
-
-      setToast('success')
-      setIsToastOpen(true)
-
-      router.push({
-        pathname: '/mountains/[mid]',
-        query: {
-          mid,
-        },
-      })
+      onSucceeded(`/mountains/${mid}`)
     })
   }
   useEffect(() => {

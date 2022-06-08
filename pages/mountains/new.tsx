@@ -6,10 +6,7 @@ import { useCreateMountainWithSessionMutation } from '@/graphql/generated/client
 import Sidebar from '@/src/components/layout/Sidebar'
 import { Marker } from '@react-google-maps/api'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
 import { useCenterContextState } from '@/src/contexts/CenterContext/CenterContextProvider'
-import { useIsToastOpenContextUpdater } from '@/src/contexts/IsToastOpenContext/IsToastOpenContextProvider'
-import { useToastContextUpdater } from '@/src/contexts/ToastContext/ToastContextProvider'
 import { useFormHook } from '@/src/hooks/useFormHook/useFormHook'
 
 export const CreateMountain = z.object({
@@ -18,11 +15,8 @@ export const CreateMountain = z.object({
   lng: z.number(),
 })
 const NewMountainPage = () => {
-  const router = useRouter()
   const center = useCenterContextState()
-  const setToast = useToastContextUpdater()
-  const setIsToastOpen = useIsToastOpenContextUpdater()
-  const { onFailed, onSubmitted } = useFormHook()
+  const { onFailed, onSucceeded } = useFormHook()
   const { data: session } = useSession()
   const [createMountain] = useCreateMountainWithSessionMutation()
   const create = (values: z.infer<typeof CreateMountain>) => {
@@ -41,14 +35,7 @@ const NewMountainPage = () => {
         onFailed()
         return
       }
-      setToast('success')
-      setIsToastOpen(true)
-      router.push({
-        pathname: '/mountains/[mid]',
-        query: {
-          mid: res.data?.createMountainWithSession.id,
-        },
-      })
+      onSucceeded(`/mountains/${res.data?.createMountainWithSession.id}`)
     })
   }
   return (
