@@ -103,8 +103,8 @@ describe('New route', () => {
 
     expect(screen.getByText('foo')).toBeInTheDocument()
 
-    const name = screen.getByLabelText('Name')
-    const time = screen.getByLabelText('Time')
+    const name = screen.getByTestId('name-input')
+    const time = screen.getByTestId('time-input')
 
     await act(() => {
       fireEvent.change(name, { target: { value: values.name } })

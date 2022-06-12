@@ -85,9 +85,9 @@ describe('EditMountainQuery', () => {
     expect(screen.getByDisplayValue('200')).toBeTruthy()
     expect(screen.getByDisplayValue('300')).toBeTruthy()
 
-    const name = screen.getByLabelText('Name')
-    const lat = screen.getByLabelText('Lat')
-    const lng = screen.getByLabelText('Lng')
+    const name = screen.getByTestId('name-input')
+    const lat = screen.getByTestId('lat-input')
+    const lng = screen.getByTestId('lng-input')
 
     await act(() => {
       fireEvent.change(name, { target: { value: 'bar' } })

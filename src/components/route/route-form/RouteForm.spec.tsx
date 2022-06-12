@@ -22,8 +22,8 @@ describe('Sampleコンポーネント', () => {
 
     expect(screen.getByText('Create Route')).toBeTruthy()
     await act(() => {
-      fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Name' } })
-      fireEvent.change(screen.getByLabelText('Time'), { target: { value: '1' } })
+      fireEvent.change(screen.getByTestId('name-input'), { target: { value: 'Name' } })
+      fireEvent.change(screen.getByTestId('time-input'), { target: { value: '1' } })
     })
 
     fireEvent.submit(screen.getByText('Create Route'))

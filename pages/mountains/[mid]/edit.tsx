@@ -22,8 +22,8 @@ import { useFormHook } from '@/src/hooks/useFormHook/useFormHook'
 export const UpdateMountain = z.object({
   id: z.number(),
   name: z.string(),
-  lat: z.number(),
-  lng: z.number(),
+  lat: z.string(),
+  lng: z.string(),
 })
 
 type Data = {
@@ -67,8 +67,8 @@ const EditMountainPage = ({ data }: InferGetServerSidePropsType<typeof getServer
       variables: {
         data: {
           name: { set: values.name },
-          lat: { set: values.lat },
-          lng: { set: values.lng },
+          lat: { set: Number(values.lat) },
+          lng: { set: Number(values.lng) },
           userId: { set: session!.user!.id },
         },
         where: { id: Number(mid) },

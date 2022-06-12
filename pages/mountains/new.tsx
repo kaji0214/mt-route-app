@@ -11,8 +11,8 @@ import { useFormHook } from '@/src/hooks/useFormHook/useFormHook'
 
 export const CreateMountain = z.object({
   name: z.string(),
-  lat: z.number(),
-  lng: z.number(),
+  lat: z.string(),
+  lng: z.string(),
 })
 const NewMountainPage = () => {
   const center = useCenterContextState()
@@ -25,8 +25,8 @@ const NewMountainPage = () => {
       variables: {
         data: {
           name,
-          lat,
-          lng,
+          lat: Number(lat),
+          lng: Number(lng),
           userId: session!.user!.id,
         },
       },
