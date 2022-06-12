@@ -41,9 +41,9 @@ describe('MountainForm check', () => {
     })
     expect(screen.getByText('Create Mountain')).toBeTruthy()
     await act(() => {
-      fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Name' } })
-      fireEvent.change(screen.getByLabelText('Lat'), { target: { value: '1' } })
-      fireEvent.change(screen.getByLabelText('Lng'), { target: { value: '2' } })
+      fireEvent.change(screen.getByTestId('name-input'), { target: { value: 'Name' } })
+      fireEvent.change(screen.getByTestId('lat-input'), { target: { value: '1' } })
+      fireEvent.change(screen.getByTestId('lng-input'), { target: { value: '2' } })
     })
 
     fireEvent.submit(screen.getByText('Create Mountain'))

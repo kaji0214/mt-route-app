@@ -57,9 +57,9 @@ describe('NewMountainPage', () => {
       new Promise((resolve) => setTimeout(resolve, 0))
     })
 
-    const name = screen.getByLabelText('Name')
-    const lat = screen.getByLabelText('Lat')
-    const lng = screen.getByLabelText('Lng')
+    const name = screen.getByTestId('name-input')
+    const lat = screen.getByTestId('lat-input')
+    const lng = screen.getByTestId('lng-input')
 
     await act(() => {
       fireEvent.change(name, { target: { value: values.name } })

@@ -9,11 +9,9 @@ afterAll(() => {
 describe('Auth', () => {
   it('should show children when session exists', async () => {
     const onSubmit = jest.fn()
-    const { getByDisplayValue, getByTestId, getByLabelText } = render(
-      <MountainListForm onSubmit={onSubmit} />,
-    )
+    const { getByDisplayValue, getByTestId } = render(<MountainListForm onSubmit={onSubmit} />)
     await act(() => {
-      fireEvent.change(getByLabelText('Keyword'), { target: { value: 'foo' } })
+      fireEvent.change(getByTestId('keyword-input'), { target: { value: 'foo' } })
     })
     expect(getByDisplayValue('foo')).toBeInTheDocument()
 

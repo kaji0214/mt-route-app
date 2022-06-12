@@ -121,8 +121,8 @@ describe('EditRoutePage', () => {
     expect(screen.getByDisplayValue('foo')).toBeTruthy()
     expect(screen.getByDisplayValue('100')).toBeTruthy()
 
-    const name = screen.getByLabelText('Name')
-    const time = screen.getByLabelText('Time')
+    const name = screen.getByTestId('name-input')
+    const time = screen.getByTestId('time-input')
 
     await act(() => {
       fireEvent.change(name, { target: { value: 'bar' } })
